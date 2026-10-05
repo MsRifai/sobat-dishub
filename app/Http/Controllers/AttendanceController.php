@@ -381,6 +381,38 @@ class AttendanceController extends Controller
             throw new \Exception('Dekode foto Base64 gagal.');
         }
 
+        // Backend Compression (GD Extension Safeguard)
+        // Memastikan file fisik di disk server selalu terkompresi (~30KB-50KB) & max resolusi 480px
+        if (function_exists('imagecreatefromstring') && function_exists('imagejpeg')) {
+            $srcImage = @imagecreatefromstring($imageData);
+            if ($srcImage !== false) {
+                $origWidth = imagesx($srcImage);
+                $origHeight = imagesy($srcImage);
+                $maxDim = 480;
+
+                if ($origWidth > $maxDim || $origHeight > $maxDim) {
+                    if ($origWidth >= $origHeight) {
+                        $newWidth = $maxDim;
+                        $newHeight = (int) round(($origHeight / $origWidth) * $maxDim);
+                    } else {
+                        $newHeight = $maxDim;
+                        $newWidth = (int) round(($origWidth / $origHeight) * $maxDim);
+                    }
+
+                    $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
+                    imagecopyresampled($resizedImage, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
+                    imagedestroy($srcImage);
+                    $srcImage = $resizedImage;
+                }
+
+                ob_start();
+                imagejpeg($srcImage, null, 65);
+                $imageData = ob_get_clean();
+                imagedestroy($srcImage);
+                $extension = 'jpg';
+            }
+        }
+
         $filename = Str::random(20) . '_' . time() . '.' . $extension;
         $path = $folder . '/' . $filename;
 

@@ -547,14 +547,20 @@
                     const canvasEl = this.$refs.canvasElement;
                     const context = canvasEl.getContext('2d');
 
-                    canvasEl.width = videoEl.videoWidth || 640;
-                    canvasEl.height = videoEl.videoHeight || 640;
+                    // Kompresi foto presensi (Max 480px canvas, JPEG quality 0.65)
+                    // Menghemat ukuran dari 1MB-3MB menjadi hanya 30KB-60KB
+                    const maxDimension = 480;
+                    let srcWidth = videoEl.videoWidth || 640;
+                    let srcHeight = videoEl.videoHeight || 640;
+
+                    canvasEl.width = maxDimension;
+                    canvasEl.height = maxDimension;
 
                     context.translate(canvasEl.width, 0);
                     context.scale(-1, 1);
-                    context.drawImage(videoEl, 0, 0, canvasEl.width, canvasEl.height);
+                    context.drawImage(videoEl, 0, 0, srcWidth, srcHeight, 0, 0, maxDimension, maxDimension);
 
-                    const photoBase64 = canvasEl.toDataURL('image/jpeg', 0.7);
+                    const photoBase64 = canvasEl.toDataURL('image/jpeg', 0.65);
 
                     const endpoint = type === 'checkin' ? '{{ route('presensi.checkin') }}' : '{{ route('presensi.checkout') }}';
 
