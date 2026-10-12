@@ -1,59 +1,142 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚦 Sobat Dishub — Sistem Presensi Magang
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web presensi mandiri dan manajemen kehadiran peserta magang berbasis **Geofencing GPS** untuk **Dinas Perhubungan**. Dibangun menggunakan **Laravel 12**, dirancang dengan pendekatan *mobile-first*, serta dilengkapi panel administrasi dan ekspor laporan kehadiran.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🌟 Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 📱 Sisi Peserta Magang
+- **Presensi Berbasis Geofencing (GPS):** Check-in dan Check-out hanya dapat dilakukan jika berada di dalam radius kantor yang ditentukan (didukung Leaflet.js & GPS Geolocation).
+- **Deteksi Keterlambatan Otomatis:** Perhitungan otomatis status kedatangan (*Tepat Waktu* atau *Terlambat* beserta jumlah menit keterlambatan).
+- **Penyesuaian Jam Operasional:** Mendukung perbedaan batas jam pulang untuk hari biasa dan hari Jumat.
+- **Pengajuan Izin / Sakit / Cuti:** Pengajuan izin digital disertai unggah bukti/surat keterangan dan pemantauan status persetujuan (*Pending*, *Approved*, *Rejected*).
+- **Manajemen Profil & Akun:** Pengaturan informasi profil mandiri dan ubah kata sandi.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🛡️ Sisi Admin (Pengelola Magang)
+- **Dashboard Ringkasan Kehadiran:** Statistik harian kehadiran, keterlambatan, dan pengajuan izin yang membutuhkan persetujuan.
+- **Monitoring & Log Presensi:** Tabel kehadiran lengkap dengan filter tanggal, pencarian nama, dan detail koordinat presensi.
+- **Ekspor Laporan (PDF & CSV):** 
+  - Rekap absensi seluruh peserta ke format CSV dan PDF.
+  - Laporan individual per mahasiswa/peserta magang ke format PDF resmi.
+- **Kelola Pengajuan Izin/Sakit:** Peninjauan berkas bukti serta aksi *Approve* atau *Reject*.
+- **Kelola Titik Kantor (Geofence):** Pengaturan koordinat latitude, longitude, nama kantor, dan radius jangkauan presensi (meter).
+- **Manajemen Akun Peserta:** Tambah peserta, edit data kampus/instansi, reset password peserta, dan pengalihan status aktif/nonaktif akun.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🛠️ Tech Stack & Dependensi
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Backend:** [PHP 8.2+](https://php.net) & [Laravel 12](https://laravel.com)
+- **Frontend:** Blade Templating, [Tailwind CSS](https://tailwindcss.com), [Vite](https://vitejs.dev)
+- **Peta & Geolocation:** Leaflet.js & Browser Geolocation API
+- **Ekspor Dokumen:** [barryvdh/laravel-dompdf](https://github.com/barryvdh/laravel-dompdf)
+- **Database:** PostgreSQL (Supabase) / MySQL / SQLite
+- **Deployment:** [Vercel](https://vercel.com) (PHP Serverless Runtime)
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Panduan Instalasi & Menjalankan di Lokal
 
-### Premium Partners
+### 1. Prasyarat Sistem
+- PHP >= 8.2 (ekstensi `pdo`, `mbstring`, `openssl`, `gd`, `fileinfo` aktif)
+- Composer
+- Node.js & NPM
+- Database (PostgreSQL / MySQL)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 2. Kloning Repositori
+```bash
+git clone https://github.com/MsRifai/sobat-dishub.git
+cd sobat-dishub
+```
 
-## Contributing
+### 3. Pasang Dependensi
+```bash
+composer install
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Konfigurasi Lingkungan (.env)
+Salin berkas `.env.example` ke `.env`:
+```bash
+cp .env.example .env
+```
+Generate App Key:
+```bash
+php artisan key:generate
+```
+Sesuaikan konfigurasi database pada berkas `.env`:
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=sobat_dishub
+DB_USERNAME=postgres
+DB_PASSWORD=secret
+```
 
-## Code of Conduct
+### 5. Jalankan Migrasi dan Seeder
+Jalankan migrasi beserta data sampel awal (kantor, akun admin, dan akun magang):
+```bash
+php artisan migrate --seed
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 6. Hubungkan Storage Link
+```bash
+php artisan storage:link
+```
 
-## Security Vulnerabilities
+### 7. Jalankan Server Pengembangan
+Jalankan backend Laravel dan Vite frontend secara bersamaan:
+```bash
+# Terminal 1 - Backend Server
+php artisan serve
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Terminal 2 - Frontend Assets
+npm run dev
+```
+Aplikasi dapat diakses melalui browser di: `http://127.0.0.1:8000`
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🔑 Akun Default (Hasil Seeder)
+
+Untuk keperluan pengujian lokal, gunakan kredensial bawaan berikut:
+
+| Peran | Username | Email | Password Default | Keterangan |
+| :--- | :--- | :--- | :--- | :--- |
+| **Admin** | `admin` | `admin@dishub.go.id` | `password123` | Akses penuh dashboard admin |
+| **Magang 1** | `magang01` | `budi@student.ac.id` | `password123` | Sudah presensi (Tepat Waktu) |
+| **Magang 2** | `magang02` | `siti@student.ac.id` | `password123` | Sudah presensi (Terlambat) |
+| **Magang 3** | `magang03` | `ahmad@student.ac.id` | `password123` | Belum presensi (Siap uji check-in) |
+
+> **Catatan Uji Lokasi Presensi:** Koordinat default kantor disetel pada **Kantor Induk Dishub DIY** (`-7.795600, 110.369500`) dengan radius 100 meter. Anda dapat mengubah titik lokasi kantor via menu **Admin > Lokasi Kantor** atau menggunakan fake GPS / browser sensor override saat menguji fitur absensi.
+
+---
+
+## 📂 Struktur Proyek Singkat
+
+```text
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── AdminController.php         # Kelola dashboard, rekap, export PDF/CSV, kantor, & user
+│   │   ├── AttendanceController.php    # Logika presensi check-in/out & validasi geofence
+│   │   ├── AuthController.php          # Otentikasi login, register, reset password
+│   │   ├── LeaveRequestController.php  # Pengajuan & persetujuan izin/sakit/cuti
+│   │   └── ProfileController.php       # Profil pengguna
+│   ├── Models/                         # User, Attendance, OfficeLocation, LeaveRequest
+│   └── Services/GeoService.php         # Perhitungan jarak koordinat (Haversine Formula)
+├── database/
+│   ├── migrations/                     # Skema tabel database
+│   └── seeders/DatabaseSeeder.php      # Data dummy & user pengujian
+├── resources/views/                    # Tampilan UI Blade (Tailwind CSS)
+├── routes/web.php                      # Rute web aplikasi
+├── vercel.json                         # Konfigurasi deployment serverless Vercel
+└── README.md                           # Dokumentasi proyek
+```
+
+---
+
+## 📄 Lisensi
+Proyek ini dikembangkan untuk kebutuhan internal pengelolaan magang Dinas Perhubungan. Hak cipta dilindungi undang-undang.
+
