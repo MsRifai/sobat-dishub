@@ -27,7 +27,7 @@
                 <!-- Username -->
                 <div>
                     <label for="username" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                        Username Peserta
+                        Username
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">

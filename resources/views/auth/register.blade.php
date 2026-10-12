@@ -12,7 +12,7 @@
                 <img src="{{ asset('images/logo-dishub.png') }}" alt="Logo Dishub" class="w-full h-full object-contain">
             </div>
             <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">
-                Pendaftaran <span class="text-emerald-600">Peserta Magang</span>
+                Pendaftaran <span class="text-emerald-600">Akun Magang</span>
             </h1>
             <p class="text-xs text-slate-500 mt-1 font-semibold">Buat akun presensi magang terpadu Dinas Perhubungan</p>
         </div>
@@ -112,7 +112,7 @@
 
                 <!-- Submit Button -->
                 <button type="submit" class="w-full py-3.5 px-4 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs rounded-2xl shadow-lg shadow-emerald-500/25 focus:outline-none transition transform active:scale-[0.99] flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-user-plus"></i> Buat Akun Peserta Magang
+                    <i class="fa-solid fa-user-plus"></i> Buat Akun Magang
                 </button>
             </form>
 

@@ -17,10 +17,16 @@
             </div>
         </div>
 
-        <a href="{{ route('admin.export-csv', ['search' => $user->username]) }}" class="py-2.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold shadow-md shadow-emerald-600/20 transition flex items-center gap-2">
-            <i class="fa-solid fa-file-csv"></i>
-            <span>Ekspor CSV Peserta Ini</span>
-        </a>
+        <div class="flex items-center gap-2">
+            <a href="{{ route('admin.users.report-pdf', $user->id) }}" target="_blank" class="py-2.5 px-4 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold shadow-md shadow-rose-600/20 transition flex items-center gap-2">
+                <i class="fa-solid fa-file-pdf text-base"></i>
+                <span>Cetak Rapor PDF</span>
+            </a>
+            <a href="{{ route('admin.export-csv', ['search' => $user->username]) }}" class="py-2.5 px-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-extrabold shadow-md transition flex items-center gap-2">
+                <i class="fa-solid fa-file-csv text-emerald-400"></i>
+                <span>Ekspor CSV</span>
+            </a>
+        </div>
     </div>
 
     <!-- User Profile Header Card -->
@@ -146,13 +152,13 @@
                             <td class="px-4 py-3 text-center whitespace-nowrap">
                                 <div class="flex items-center justify-center gap-1">
                                     @if($row->check_in_photo)
-                                        <a href="{{ asset('storage/' . $row->check_in_photo) }}" target="_blank">
-                                            <img src="{{ asset('storage/' . $row->check_in_photo) }}" class="w-8 h-8 rounded-lg object-cover border border-emerald-500 hover:scale-110 transition">
+                                        <a href="{{ get_media_url($row->check_in_photo) }}" target="_blank">
+                                            <img src="{{ get_media_url($row->check_in_photo) }}" class="w-8 h-8 rounded-lg object-cover border border-emerald-500 hover:scale-110 transition">
                                         </a>
                                     @endif
                                     @if($row->check_out_photo)
-                                        <a href="{{ asset('storage/' . $row->check_out_photo) }}" target="_blank">
-                                            <img src="{{ asset('storage/' . $row->check_out_photo) }}" class="w-8 h-8 rounded-lg object-cover border border-blue-500 hover:scale-110 transition">
+                                        <a href="{{ get_media_url($row->check_out_photo) }}" target="_blank">
+                                            <img src="{{ get_media_url($row->check_out_photo) }}" class="w-8 h-8 rounded-lg object-cover border border-blue-500 hover:scale-110 transition">
                                         </a>
                                     @endif
                                 </div>

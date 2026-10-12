@@ -32,7 +32,7 @@
                 <!-- Username -->
                 <div>
                     <label for="username" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                        Username Peserta <span class="text-rose-500">*</span>
+                        Username <span class="text-rose-500">*</span>
                     </label>
                     <input type="text" name="username" id="username" value="{{ old('username') }}" required autofocus
                         placeholder="Contoh: ahmad_fauzi"

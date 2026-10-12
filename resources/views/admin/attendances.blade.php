@@ -8,16 +8,24 @@
     <!-- Page Header Bar -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Data Presensi Peserta Magang</h1>
-            <p class="text-xs text-slate-500 font-semibold mt-1">Kelola dan pantau seluruh catatan presensi lokasi peserta magang secara real-time</p>
+            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Data Presensi Magang</h1>
+            <p class="text-xs text-slate-500 font-semibold mt-1">Kelola dan pantau seluruh catatan presensi lokasi magang secara real-time</p>
         </div>
 
-        <!-- CSV Export Button -->
-        <a href="{{ route('admin.export-csv', ['start_date' => $startDate, 'end_date' => $endDate, 'search' => $search, 'campus' => $campus]) }}" 
-            class="py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs rounded-2xl shadow-md transition flex items-center gap-2 self-start sm:self-auto">
-            <i class="fa-solid fa-file-csv text-base text-emerald-400"></i>
-            <span>Ekspor Data (CSV)</span>
-        </a>
+        <!-- Export Buttons (PDF & CSV) -->
+        <div class="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+            <a href="{{ route('admin.export-pdf', ['start_date' => $startDate, 'end_date' => $endDate, 'search' => $search, 'campus' => $campus]) }}" 
+                target="_blank"
+                class="py-2.5 px-4 bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs rounded-2xl shadow-md shadow-rose-600/20 transition flex items-center gap-2">
+                <i class="fa-solid fa-file-pdf text-base"></i>
+                <span>Ekspor PDF</span>
+            </a>
+            <a href="{{ route('admin.export-csv', ['start_date' => $startDate, 'end_date' => $endDate, 'search' => $search, 'campus' => $campus]) }}" 
+                class="py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs rounded-2xl shadow-md transition flex items-center gap-2">
+                <i class="fa-solid fa-file-csv text-base text-emerald-400"></i>
+                <span>Ekspor CSV</span>
+            </a>
+        </div>
     </div>
 
     <!-- Filter Card -->
@@ -78,7 +86,7 @@
                     <tr>
                         <th class="px-4 py-3">No</th>
                         <th class="px-4 py-3">Tanggal</th>
-                        <th class="px-4 py-3">Peserta Magang</th>
+                        <th class="px-4 py-3">Nama / User</th>
                         <th class="px-4 py-3">Masuk (WIB)</th>
                         <th class="px-4 py-3">Pulang (WIB)</th>
                         <th class="px-4 py-3 text-center">Status</th>
@@ -154,17 +162,17 @@
                             </td>
                             <td class="px-4 py-3 text-center whitespace-nowrap">
                                 <div class="flex items-center justify-center gap-2">
-                                    <a href="{{ route('admin.users.report', $row->user_id) }}" class="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 transition text-[10px] font-bold" title="Rapor Peserta">
+                                    <a href="{{ route('admin.users.report', $row->user_id) }}" class="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 transition text-[10px] font-bold" title="Rapor User">
                                         <i class="fa-solid fa-file-user"></i>
                                     </a>
                                     @if($row->check_in_photo)
-                                        <a href="{{ asset('storage/' . $row->check_in_photo) }}" target="_blank" title="Foto Check-in">
-                                            <img src="{{ asset('storage/' . $row->check_in_photo) }}" class="w-8 h-8 rounded-lg object-cover border border-emerald-500 hover:scale-110 transition">
+                                        <a href="{{ get_media_url($row->check_in_photo) }}" target="_blank" title="Foto Check-in">
+                                            <img src="{{ get_media_url($row->check_in_photo) }}" class="w-8 h-8 rounded-lg object-cover border border-emerald-500 hover:scale-110 transition">
                                         </a>
                                     @endif
                                     @if($row->check_out_photo)
-                                        <a href="{{ asset('storage/' . $row->check_out_photo) }}" target="_blank" title="Foto Check-out">
-                                            <img src="{{ asset('storage/' . $row->check_out_photo) }}" class="w-8 h-8 rounded-lg object-cover border border-blue-500 hover:scale-110 transition">
+                                        <a href="{{ get_media_url($row->check_out_photo) }}" target="_blank" title="Foto Check-out">
+                                            <img src="{{ get_media_url($row->check_out_photo) }}" class="w-8 h-8 rounded-lg object-cover border border-blue-500 hover:scale-110 transition">
                                         </a>
                                     @endif
                                 </div>

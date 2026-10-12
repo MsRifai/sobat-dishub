@@ -240,7 +240,7 @@ class AttendanceController extends Controller
                 'status' => $status,
                 'late_minutes' => $lateMinutes,
                 'distance' => $distance,
-                'photo_url' => asset('storage/' . $photoPath),
+                'photo_url' => Storage::url($photoPath),
             ]
         ]);
     }
@@ -354,7 +354,7 @@ class AttendanceController extends Controller
             'data' => [
                 'check_out_time' => substr($checkOutTimeStr, 0, 5),
                 'distance' => $distance,
-                'photo_url' => asset('storage/' . $photoPath),
+                'photo_url' => Storage::url($photoPath),
             ]
         ]);
     }
@@ -416,7 +416,8 @@ class AttendanceController extends Controller
         $filename = Str::random(20) . '_' . time() . '.' . $extension;
         $path = $folder . '/' . $filename;
 
-        Storage::disk('public')->put($path, $imageData);
+        $disk = config('filesystems.default', 'google');
+        Storage::disk($disk)->put($path, $imageData);
 
         return $path;
     }

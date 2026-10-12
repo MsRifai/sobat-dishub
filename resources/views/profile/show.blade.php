@@ -43,9 +43,11 @@
 
     <!-- Presensi Summary Stats Card -->
     <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 space-y-3">
-        <h4 class="font-extrabold text-slate-900 text-xs uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-chart-simple text-emerald-500"></i> Statistik Presensi Saya
-        </h4>
+        <div class="flex items-center justify-between">
+            <h4 class="font-extrabold text-slate-900 text-xs uppercase tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-chart-simple text-emerald-500"></i> Statistik Presensi Saya
+            </h4>
+        </div>
         <div class="grid grid-cols-3 gap-2.5 text-center">
             <div class="p-3 bg-emerald-50 border border-emerald-100 rounded-2xl">
                 <div class="text-xl font-extrabold text-emerald-600">{{ $statTepatWaktu }}</div>

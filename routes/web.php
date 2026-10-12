@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/attendances', [AdminController::class, 'attendances'])->name('attendances');
         Route::get('/export-csv', [AdminController::class, 'exportCsv'])->name('export-csv');
+        Route::get('/export-pdf', [AdminController::class, 'exportPdf'])->name('export-pdf');
         Route::get('/office', [AdminController::class, 'officeLocation'])->name('office');
         Route::post('/office', [AdminController::class, 'officeLocationUpdate'])->name('office.update');
         Route::get('/users', [AdminController::class, 'users'])->name('users');
@@ -62,6 +63,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/users/{id}/reset-password', [AdminController::class, 'userResetPassword'])->name('users.reset-password');
         Route::post('/users/{id}/toggle', [AdminController::class, 'userToggleStatus'])->name('users.toggle');
         Route::get('/users/{id}/report', [AdminController::class, 'userReport'])->name('users.report');
+        Route::get('/users/{id}/report-pdf', [AdminController::class, 'userReportPdf'])->name('users.report-pdf');
 
         // Kelola Pengajuan Izin / Sakit / Cuti (Admin)
         Route::get('/leave-requests', [LeaveRequestController::class, 'adminIndex'])->name('leave.index');

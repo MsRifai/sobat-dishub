@@ -178,7 +178,7 @@
 
                     @if($item->attachment)
                         <div class="pt-1">
-                            <a href="{{ asset('storage/' . $item->attachment) }}" target="_blank" 
+                            <a href="{{ get_media_url($item->attachment) }}" target="_blank" 
                                 class="inline-flex items-center gap-1.5 text-xs text-emerald-600 hover:text-emerald-700 font-extrabold underline">
                                 <i class="fa-solid fa-paperclip"></i> Lihat Berkas Lampiran
                             </a>

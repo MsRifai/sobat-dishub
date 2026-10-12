@@ -6,6 +6,7 @@ use App\Models\Attendance;
 use App\Models\LeaveRequest;
 use App\Models\OfficeLocation;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -207,6 +208,58 @@ class AdminController extends Controller
     }
 
     /**
+     * Ekspor Laporan Rekap Presensi ke Format PDF
+     */
+    public function exportPdf(Request $request)
+    {
+        $today = Carbon::now('Asia/Jakarta')->toDateString();
+        $startDate = $request->input('start_date', $today);
+        $endDate = $request->input('end_date', $today);
+        $search = $request->input('search');
+        $campus = $request->input('campus');
+
+        $query = Attendance::with('user')
+            ->whereBetween('date', [$startDate, $endDate]);
+
+        if ($search) {
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('username', 'like', "%{$search}%")
+                  ->orWhere('asal_instansi_kampus', 'like', "%{$search}%");
+            });
+        }
+
+        if ($campus) {
+            $query->whereHas('user', function ($q) use ($campus) {
+                $q->where('asal_instansi_kampus', $campus);
+            });
+        }
+
+        $attendances = $query->orderBy('date', 'desc')->get();
+
+        $statTepatWaktu = $attendances->where('status', 'tepat_waktu')->count();
+        $statTerlambat = $attendances->where('status', 'terlambat')->count();
+        $statIzin = $attendances->whereIn('status', ['sakit', 'izin', 'cuti'])->count();
+
+        $logoBase64 = $this->getLogoBase64();
+
+        $pdf = Pdf::loadView('pdf.attendances', compact(
+            'attendances',
+            'startDate',
+            'endDate',
+            'search',
+            'campus',
+            'statTepatWaktu',
+            'statTerlambat',
+            'statIzin',
+            'logoBase64'
+        ))->setPaper('a4', 'landscape');
+
+        $filename = "Rekap_Presensi_Magang_{$startDate}_sampai_{$endDate}.pdf";
+        return $pdf->download($filename);
+    }
+
+    /**
      * Tampilan Pengaturan Titik Lokasi Kantor & Jam Kerja
      */
     public function officeLocation()
@@ -394,5 +447,58 @@ class AdminController extends Controller
             'totalLateMinutes',
             'attendanceRate'
         ));
+    }
+
+    /**
+     * Ekspor Rapor Presensi Individu Peserta Magang ke PDF
+     */
+    public function userReportPdf(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $attendances = Attendance::where('user_id', $user->id)
+            ->orderBy('date', 'desc')
+            ->get();
+
+        $totalHadirTepat = Attendance::where('user_id', $user->id)->where('status', 'tepat_waktu')->count();
+        $totalTerlambat = Attendance::where('user_id', $user->id)->where('status', 'terlambat')->count();
+        $totalIzinSakit = Attendance::where('user_id', $user->id)->whereIn('status', ['sakit', 'izin', 'cuti'])->count();
+        $totalLateMinutes = Attendance::where('user_id', $user->id)->sum('late_minutes');
+
+        $totalPresensi = $totalHadirTepat + $totalTerlambat + $totalIzinSakit;
+        $attendanceRate = $totalPresensi > 0 ? round((($totalHadirTepat + $totalTerlambat) / $totalPresensi) * 100, 1) : 0;
+
+        $logoBase64 = $this->getLogoBase64();
+
+        $pdf = Pdf::loadView('pdf.user_report', compact(
+            'user',
+            'attendances',
+            'totalHadirTepat',
+            'totalTerlambat',
+            'totalIzinSakit',
+            'totalLateMinutes',
+            'attendanceRate',
+            'logoBase64'
+        ))->setPaper('a4', 'portrait');
+
+        $filename = "Rapor_Presensi_" . str_replace(' ', '_', $user->name) . "_{$user->username}.pdf";
+        return $pdf->download($filename);
+    }
+
+    /**
+     * Helper Encode Logo Dishub to Base64 for DomPDF
+     */
+    private function getLogoBase64()
+    {
+        if (!extension_loaded('gd')) {
+            return '';
+        }
+        $path = public_path('images/logo-dishub.png');
+        if (file_exists($path)) {
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            return 'data:image/' . $type . ';base64,' . base64_encode($data);
+        }
+        return '';
     }
 }

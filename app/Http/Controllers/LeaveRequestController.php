@@ -59,7 +59,8 @@ class LeaveRequestController extends Controller
 
         $attachmentPath = null;
         if ($request->hasFile('attachment')) {
-            $attachmentPath = $request->file('attachment')->store('leave_attachments', 'public');
+            $disk = config('filesystems.default', 'google');
+            $attachmentPath = $request->file('attachment')->store('leave_attachments', $disk);
         }
 
         LeaveRequest::create([

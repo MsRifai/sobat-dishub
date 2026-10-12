@@ -131,7 +131,7 @@
                             <td class="px-4 py-3 max-w-xs">
                                 <p class="text-slate-800 line-clamp-2 text-[11px]">{{ $row->reason }}</p>
                                 @if($row->attachment)
-                                    <a href="{{ asset('storage/' . $row->attachment) }}" target="_blank" class="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 hover:text-emerald-700 underline mt-1">
+                                    <a href="{{ get_media_url($row->attachment) }}" target="_blank" class="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 hover:text-emerald-700 underline mt-1">
                                         <i class="fa-solid fa-paperclip"></i> Lihat Lampiran
                                     </a>
                                 @endif
